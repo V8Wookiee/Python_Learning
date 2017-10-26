@@ -147,7 +147,7 @@ def main():
 
         # Ram Info
         usedram = psutil.virtual_memory().percent
-        freeram = psutil.virtual_memory().free
+        freeram = psutil.virtual_memory().available
         LINE1 = "MEM USED=  " + str(usedram) + "%"
         LINE2 = "MEM FREE=  " + str(freeram / 1024 / 1024) + "MB"
         lcd_string(LINE1, LCD_LINE_1)
