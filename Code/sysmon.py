@@ -108,6 +108,8 @@ def main():
     lcd_init()
 
     while True:
+
+        #Network Info
         net = psutil.net_io_counters(pernic=True)
         sent = net['wlan0'].bytes_sent
         received = net['wlan0'].bytes_recv
@@ -119,19 +121,18 @@ def main():
 
         time.sleep(4)
 
+        #CPU Info
         cpu_temp = get_cpu_temperature()
         cpu_usage = psutil.cpu_percent()
 
         LINE1 = "CPU TEMP=  " + str(cpu_temp) + "c"
         LINE2 = "CPU USED=   " + str(cpu_usage) + "%"
-
-        # print "cpu temp = ", cpu_temp
-        # print "cpu usage = ", cpu_usage
         lcd_string(LINE1, LCD_LINE_1)
         lcd_string(LINE2, LCD_LINE_2)
 
         time.sleep(4)
 
+        #Disk Info
         st = os.statvfs("/")
         free = st.f_bavail * st.f_frsize
         total = st.f_blocks * st.f_frsize
@@ -141,10 +142,10 @@ def main():
         LINE2 = "DISK FREE:  " + str(total / 1024 / 1024 / 1024) + "GB"
         lcd_string(LINE1, LCD_LINE_1)
         lcd_string(LINE2, LCD_LINE_2)
-        # print "disk use =", LINE2
 
         time.sleep(4)
 
+        # Ram Info
         usedram = psutil.virtual_memory().percent
         freeram = psutil.virtual_memory().free
         LINE1 = "MEM USED=  " + str(usedram) + "%"
@@ -154,6 +155,7 @@ def main():
 
         time.sleep(4)
 
+        #Uptime Info
         from datetime import timedelta
         with open('/proc/uptime', 'r') as f:
             uptime_seconds = float(f.readline().split()[0])
@@ -163,7 +165,6 @@ def main():
         LINE2 = str(uptime_string)
         lcd_string(LINE1, LCD_LINE_1)
         lcd_string(LINE2, LCD_LINE_2)
-        # print (uptime_string)
 
         time.sleep(4)
 
