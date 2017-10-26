@@ -9,6 +9,9 @@
 # additional requirement: psutil 
 #
 # --------------------------------------
+#
+# Code updated by Scott Harvey 2017
+# Included Ram information and Uptime to original code by Matt Hawkins
 
 from subprocess import PIPE, Popen
 import smbus
