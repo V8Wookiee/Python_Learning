@@ -11,7 +11,12 @@
 # --------------------------------------
 #
 # Code updated by Scott Harvey 2017
+# v8wookiee@gmail.com
+#
 # Included Ram information and Uptime to original code by Matt Hawkins
+#
+# --------------------------------------
+
 
 from subprocess import PIPE, Popen
 import smbus
