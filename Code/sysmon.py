@@ -9,14 +9,18 @@
 # additional requirement: psutil 
 #
 # --------------------------------------
-
+#
+# Code modified from above by
+#          Scott Harvey
+#       v8wookiee@gmail.com
+# Added Uptime, Ram info and Wifi info
+#
+# --------------------------------------
 from subprocess import PIPE, Popen
 import smbus
 import psutil
 import os
 import time
-
-# import vcgencmd
 
 # Define some device parameters
 I2C_ADDR = 0x27  # I2C device address
@@ -45,7 +49,6 @@ E_DELAY = 0.0005
 # bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
 bus = smbus.SMBus(1)  # Rev 2 and 3 Pi's use 1
 
-
 def lcd_init():
     # Initialise display
     lcd_byte(0x33, LCD_CMD)  # 110011 Initialise
@@ -56,12 +59,10 @@ def lcd_init():
     lcd_byte(0x01, LCD_CMD)  # 000001 Clear display
     time.sleep(E_DELAY)
 
-
 def get_cpu_temperature():
     process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE)
     output, _error = process.communicate()
     return float(output[output.index('=') + 1:output.rindex("'")])
-
 
 def lcd_byte(bits, mode):
     # Send byte to data pins
@@ -99,7 +100,6 @@ def lcd_string(message, line):
 
     for i in range(LCD_WIDTH):
         lcd_byte(ord(message[i]), LCD_CHR)
-
 
 def main():
     # Main program block
