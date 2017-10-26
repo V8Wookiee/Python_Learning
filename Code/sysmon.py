@@ -9,20 +9,14 @@
 # additional requirement: psutil 
 #
 # --------------------------------------
-#
-# Code updated by Scott Harvey 2017
-# v8wookiee@gmail.com
-#
-# Included Ram information and Uptime to original code by Matt Hawkins
-#
-# --------------------------------------
-
 
 from subprocess import PIPE, Popen
 import smbus
 import psutil
 import os
 import time
+
+# import vcgencmd
 
 # Define some device parameters
 I2C_ADDR = 0x27  # I2C device address
@@ -67,6 +61,7 @@ def get_cpu_temperature():
     process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE)
     output, _error = process.communicate()
     return float(output[output.index('=') + 1:output.rindex("'")])
+
 
 def lcd_byte(bits, mode):
     # Send byte to data pins
@@ -113,6 +108,17 @@ def main():
     lcd_init()
 
     while True:
+        net = psutil.net_io_counters(pernic=True)
+        sent = net['wlan0'].bytes_sent
+        received = net['wlan0'].bytes_recv
+
+        LINE1 = "Wifi IN =   " + str(received / 1024 / 1024) + "MB"
+        LINE2 = "Wifi OUT=    " + str(sent / 1024 / 1024) + "MB"
+        lcd_string(LINE1, LCD_LINE_1)
+        lcd_string(LINE2, LCD_LINE_2)
+
+        time.sleep(4)
+
         cpu_temp = get_cpu_temperature()
         cpu_usage = psutil.cpu_percent()
 
@@ -139,9 +145,8 @@ def main():
 
         time.sleep(4)
 
-        usedram = psutil.virtual_memory().percent 
+        usedram = psutil.virtual_memory().percent
         freeram = psutil.virtual_memory().free
-        
         LINE1 = "MEM USED=  " + str(usedram) + "%"
         LINE2 = "MEM FREE=  " + str(freeram / 1024 / 1024) + "MB"
         lcd_string(LINE1, LCD_LINE_1)
