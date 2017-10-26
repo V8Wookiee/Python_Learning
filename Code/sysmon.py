@@ -68,12 +68,6 @@ def get_cpu_temperature():
     output, _error = process.communicate()
     return float(output[output.index('=') + 1:output.rindex("'")])
 
-
-# def get_ram_info():
-# process = Popen(['psutil.virtual_memory().free'], stdout=PIPE)
-# output, _error = process.communicate()
-# return float(output[output.index('=') + 1:output.rindex("'")])
-
 def lcd_byte(bits, mode):
     # Send byte to data pins
     # bits = the data
