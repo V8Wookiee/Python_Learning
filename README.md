@@ -1,2 +1,2 @@
-# Python_Learning
-Me learning Python
+# System info LCD 1602 i2c
+Current stable script located in Code folder.
