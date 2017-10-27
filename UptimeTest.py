@@ -1,4 +1,9 @@
-from datetime import timedelta
-        with open('/proc/uptime', 'r') as f:
-            #uptime_seconds = float(f.readline().split()[0])
-            uptime_string = f
+ # Uptime Info
+        subprocess.check_output(['uptime', '-p'])
+
+        LINE1 = "UPTIME:"
+        LINE2 = str(uptime_string)
+        lcd_string(LINE1, LCD_LINE_1)
+        lcd_string(LINE2, LCD_LINE_2)
+
+        time.sleep(4)
